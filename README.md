@@ -109,17 +109,9 @@ return GraphQLResponse::error('Something went wrong');
 
 ---
 
-## 🛠 Roadmap
-
-* [ ] FormRequest-style GraphQL validation
-* [ ] Auto resolver binding
-* [ ] Better error formatting
-
----
-
 ## 🤝 Contributing
 
-PRs are welcome! Keep it simple and aligned with Laravel philosophy.
+PRs are welcome! Keep it simple and aligned with Laravel philosophy & Xiaroo Team.
 
 ---
 
