@@ -1,0 +1,24 @@
+{
+    "name": "adeel3330/graphql-helper-laravel",
+    "description": "Lightweight GraphQL helper layer for Laravel with validation, resolver structure, and response formatting.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Adeel3330\\GraphQLHelper\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Adeel3330\\GraphQLHelper\\Providers\\GraphQLHelperServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2 | ^8.3 | ^8.4 | ^8.5",
+        "illuminate/support": "^11.0 | ^12.0 | ^13.0"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
