@@ -42,7 +42,7 @@ class GraphQLHelperServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../../config/graphql-helper.php' => config_path('graphql-helper.php'),
-        ], 'graphql-helper-config');
+        ], 'config');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
