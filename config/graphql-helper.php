@@ -5,4 +5,5 @@ return [
 
     'default_success_message' => 'Success',
     'default_error_message' => 'Something went wrong',
+    'resolver_namespace' => 'App\\GraphQL\\Resolvers',
 ];
