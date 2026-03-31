@@ -22,6 +22,11 @@ class GraphQLHelperServiceProvider extends ServiceProvider
         $this->app->booting(function () {
             $namespaces = config('lighthouse.namespaces.directives', []);
 
+            // Ensure $namespaces is always an array
+            if (!is_array($namespaces)) {
+                $namespaces = [$namespaces];
+            }
+
             config([
                 'lighthouse.namespaces.directives' => array_unique(array_merge(
                     $namespaces,
