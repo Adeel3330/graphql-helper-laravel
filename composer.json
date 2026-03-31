@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Adeel3330\\GraphQLHelper\\": "src/"
+            "Adeel3330\\GraphQLHelper\\": "src/",
+            "App\\GraphQL\\": "app/GraphQL/"
         }
     },
     "extra": {
