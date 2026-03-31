@@ -14,21 +14,33 @@ class GraphQLHelperServiceProvider extends ServiceProvider
         });
 
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/graphql-helper.php',
+            __DIR__ . '/../../config/graphql-helper.php',
             'graphql-helper'
         );
+
+        // 🔥 Dynamically add directive namespace
+        $this->app->booting(function () {
+            $namespaces = config('lighthouse.namespaces.directives', []);
+
+            config([
+                'lighthouse.namespaces.directives' => array_unique(array_merge(
+                    $namespaces,
+                    ['Adeel3330\\GraphQLHelper\\Directives']
+                )),
+            ]);
+        });
     }
 
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../../config/graphql-helper.php' => config_path('graphql-helper.php'),
+            __DIR__ . '/../../config/graphql-helper.php' => config_path('graphql-helper.php'),
         ], 'graphql-helper-config');
 
         if ($this->app->runningInConsole()) {
-        $this->commands([
-            \Adeel3330\GraphQLHelper\Console\MakeGraphQLResolverCommand::class,
-        ]);
-    }
+            $this->commands([
+                \Adeel3330\GraphQLHelper\Console\MakeGraphQLResolverCommand::class,
+            ]);
+        }
     }
 }

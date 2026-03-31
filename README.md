@@ -19,13 +19,39 @@ This package solves that by bringing **Laravel-like structure** to GraphQL.
 
 ---
 
+## 🔥 Key Feature: `@autoResolver`
+
+No more manual resolver mapping.
+
+Instead of writing:
+
+```graphql
+@field(resolver: "App\\GraphQL\\Resolvers\\CreateUserResolver@resolve")
+```
+
+Just use:
+
+```graphql
+@autoResolver
+```
+
+✅ Automatically maps:
+
+```
+createUser → App\GraphQL\Resolvers\CreateUserResolver
+```
+
+---
+
 ## ✨ Features
 
-* ✅ Laravel-style validation for GraphQL resolvers
-* ✅ Clean base resolver class
-* ✅ Standard API response helpers
-* ✅ Exception → GraphQL error formatting
-* ✅ Plug & play with Lighthouse or custom GraphQL setups
+* ✅ `@autoResolver` directive (auto maps GraphQL fields → resolvers)
+* ✅ Artisan generator for resolvers
+* ✅ Laravel-style validation inside resolvers
+* ✅ Clean and consistent resolver structure
+* ✅ Automatic directive namespace registration
+* ✅ Standard response helpers
+* ✅ Plug & play with Lighthouse
 
 ---
 
@@ -37,14 +63,33 @@ composer require yourname/laravel-graphql-helper
 
 ---
 
+## ⚙️ Requirements
+
+* PHP ^8.3 | ^8.4
+* Laravel ^11 | ^12 | ^13
+* Lighthouse GraphQL package
+
+---
+
 ## ⚙️ Usage
 
-### 1. Create a Resolver
+### 🔹 1. Create a Resolver
+
+```bash
+php artisan make:graphql-resolver CreateUser
+```
+
+---
+
+### 🔹 2. Resolver Example
 
 ```php
-use YourName\GraphQLHelper\Base\Resolver;
+namespace App\GraphQL\Resolvers;
 
-class CreateUser extends Resolver
+use App\Models\User;
+use Adeel3330\GraphQLHelper\Base\Resolver;
+
+class CreateUserResolver extends Resolver
 {
     public function rules(): array
     {
@@ -63,16 +108,48 @@ class CreateUser extends Resolver
 
 ---
 
-### 2. Validation (Automatic)
+### 🔹 3. Use in GraphQL Schema
 
-No need to manually validate — it's handled before execution.
+```graphql
+type Mutation {
+    createUser(email: String!, password: String!): User @autoResolver
+}
+```
 
 ---
 
-### 3. Standard Responses
+### 🔹 4. Run Mutation
+
+```graphql
+mutation {
+  createUser(email: "test@test.com", password: "123456") {
+    id
+    email
+  }
+}
+```
+
+---
+
+## 🔥 Validation (Automatic)
+
+No need to manually validate — it's handled before execution:
 
 ```php
-use YourName\GraphQLHelper\Support\GraphQLResponse;
+public function rules(): array
+{
+    return [
+        'email' => 'required|email',
+    ];
+}
+```
+
+---
+
+## 📊 Standard Responses
+
+```php
+use Adeel3330\GraphQLHelper\Support\GraphQLResponse;
 
 return GraphQLResponse::success($data);
 
@@ -93,12 +170,40 @@ return GraphQLResponse::error('Something went wrong');
 
 ---
 
-## 🧠 Philosophy
+## 🧠 How It Works
 
-* Keep it **minimal**
-* Follow **Laravel conventions**
-* Improve **developer experience**
-* Avoid unnecessary abstraction
+* Reads GraphQL field name (`createUser`)
+* Converts to class (`CreateUserResolver`)
+* Resolves from:
+
+```
+App\GraphQL\Resolvers
+```
+
+* Executes automatically
+
+---
+
+## ⚙️ Configuration (Optional)
+
+```php
+// config/graphql-helper.php
+
+return [
+    'resolver_namespace' => 'App\\GraphQL\\Resolvers',
+];
+```
+
+---
+
+## 📁 Folder Structure
+
+```
+app/
+└── GraphQL/
+    └── Resolvers/
+        └── CreateUserResolver.php
+```
 
 ---
 
@@ -106,6 +211,15 @@ return GraphQLResponse::error('Something went wrong');
 
 * Lighthouse GraphQL
 * Custom GraphQL implementations
+
+---
+
+## 🎯 Philosophy
+
+* Keep it **minimal**
+* Follow **Laravel conventions**
+* Improve **developer experience**
+* Avoid unnecessary abstraction
 
 ---
 
